@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Update Student Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Student Information</h1>
+    
+    <label for="rollno">Enter Roll Number:</label>
+    <input type="number" id="rollno" value="1" />
+    <button onclick="fetchStudentData()">Get Student Data</button>
+
+    <div id="student-data">
+        <h3>Student Details:</h3>
+        <p><strong>Roll No:</strong> <span id="student-rollno">{{fname}}</span></p>
+        <p><strong>First Name:</strong> <span id="student-fname"></span></p>
+        <p><strong>Full Name:</strong> <span id="student-name"></span></p>
+        <p><strong>English Marks:</strong> <span id="student-english"></span></p>
+        <p><strong>Science Marks:</strong> <span id="student-science"></span></p>
+        <p><strong>Social Marks:</strong> <span id="student-social"></span></p>
+        <p><strong>Politics Marks:</strong> <span id="student-politics"></span></p>
+    </div>
+
+    <script>
+        // Fetch student data using AJAX
+        function fetchStudentData() {
+            var rollno = $('#rollno').val();
+            $.ajax({
+                url: `/get_student/` + rollno,
+                method: 'GET',
+                success: function(data) {
+                    // Update the HTML elements with student data
+                    $('#student-rollno').text(data.rollno);
+                    $('#student-fname').text(data.fname);
+                    $('#student-name').text(data.name);
+                    $('#student-english').text(data.english);
+                    $('#student-science').text(data.science);
+                    $('#student-social').text(data.social);
+                    $('#student-politics').text(data.politics);
+                },
+                error: function(xhr) {
+                    // Handle error cases
+                    alert('Error fetching student data: ' + xhr.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
